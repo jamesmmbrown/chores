@@ -15,3 +15,4 @@ jobs:
           heroku_app_name: "chores"
           heroku_email: "jamesmmbrown@gmail.com"
           usedocker: true
+          justlogin: true
