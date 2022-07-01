@@ -12,7 +12,7 @@ jobs:
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "chores"
+          heroku_app_name: "chores-shellac"
           heroku_email: "jamesmmbrown@gmail.com"
           usedocker: true
           justlogin: true
