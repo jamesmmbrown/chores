@@ -19,3 +19,14 @@ jobs:
           distribution: 'adopt'
       - name: Build
         run: gradle build
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "chores-shellac"
+          heroku_email: "jamesmmbrown@gmail.com"
+          usedocker: true
+          justlogin: true
