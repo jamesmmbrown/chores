@@ -1,4 +1,4 @@
-name: Unit Test
+name: CD
 on:
   push:
     branches:
@@ -7,27 +7,19 @@ on:
     branches:
       - main
   workflow_dispatch:
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  APP_NAME: ${{ 'chores-shellac' }}
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Prepare
-        uses: actions/setup-java@v3
-        with:
-          java-version: 17
-          distribution: 'adopt'
-      - name: Build
-        run: gradle build
   deploy:
-    needs: build
+    name: Deploy to Heroku
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "chores-shellac"
-          heroku_email: "jamesmmbrown@gmail.com"
-          usedocker: true
-          justlogin: true
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Docker Build
+        run: docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+      - name: Publish
+        run: |
+          heroku container:push web -a $APP_NAME
+          heroku container:release web -a $APP_NAME
