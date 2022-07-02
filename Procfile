@@ -1,1 +1,1 @@
-web: java -jar build/libs/chores-SNAPSHOT.jar
+web: java -Dserver.port=$PORT -jar build/libs/chores-0.0.1-SNAPSHOT.jar
