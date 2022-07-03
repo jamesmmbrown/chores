@@ -20,6 +20,5 @@ jobs:
         uses: madrapps/jacoco-report@v1.2
         with:
           paths: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
-          token: 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
           min-coverage-overall: 100
           min-coverage-changed-files: 100
