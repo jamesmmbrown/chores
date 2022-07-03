@@ -1,4 +1,4 @@
-name: CD
+name: CI/CD
 on:
   push:
     branches:
@@ -11,13 +11,25 @@ env:
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
   APP_NAME: ${{ 'chores-shellac' }}
 jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Prepare
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'adopt'
+      - name: Build and Run Unit Tests
+        run: gradle build
   deploy:
+    needs: unit-test
     name: Deploy to Heroku
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Docker Build
+      - name: Docker Login
         run: docker login --username=_ --password=cdc21d38-df69-4376-ac20-9b8b448fa2fe registry.heroku.com
       - name: Publish
         run: |
